@@ -30,7 +30,7 @@ sudo docker container stats --no-stream ${GITHUB_PROJECT}_${GITHUB_RELEASE}
 ## DEPLOY WITH DOCKER SWARM
 ```
 sudo docker swarm init
-sudo docker stack deploy --compose-file docker-compose.yaml ${GITHUB_PROJECT}_${GITHUB_RELEASE}
+sudo docker stack deploy --compose-file docker-compose.yml ${GITHUB_PROJECT}_${GITHUB_RELEASE}
 ```
 ## SAME THING WITHOUT A VOLUME
 ```
