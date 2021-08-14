@@ -2,7 +2,7 @@ networks:
   simplilearn-phpinfo-network:
     internal: true
   volume-init-network:
-    internal: true
+    internal: false
 
 services:
   simplilearn-phpinfo-service:
@@ -21,31 +21,34 @@ services:
     environment:
       HELLO: world
       AUTHOR: Sebastian
-    image: academiaonline/simplilearn-phpinfo:single-line
+    image: ${GITHUB_USERNAME}/${GITHUB_PROJECT}:${GITHUB_RELEASE}
     networks:
       - simplilearn-phpinfo-network
     ports:
       - 80:8080
+    read_only: true
     user: nobody
     volumes:
       - simplilearn-phpinfo-volume:/shared/:ro
-    working_dir: /shared/simplilearn-phpinfo/src/
+    working_dir: /shared/${GITHUB_PROJECT}/${GITHUB_SRC}/
   volume-init-service:
     command:
-      - 'rm -rf simplilearn-phpinfo/ && git clone https://github.com/academiaonline/simpliearn-phpinfo && cd simplilearn-phpinfo/ && git checkout 2021-08 && sleep 1000'
+      - -c
+      - rm -rf ${GITHUB_PROJECT}/ && git clone https://github.com/${GITHUB_USERNAME}/${GITHUB_PROJECT} && cd ${GITHUB_PROJECT}/ && git checkout 2021-08 && sleep 1000
     deploy:
       mode: global
       placement:
         constraints:
           - node.role == worker
-    entrypoint:
-      - sh
-      - '-c'
+    entrypoint: /bin/sh
+    env_file:
+      - ./${ENV_FILE}
     environment:
       HELLO: bye
     image: alpine/git:latest
     networks:
       - volume-init-network
+    read_only: true
     user: root
     volumes:
       - simplilearn-phpinfo-volume:/shared/:rw
