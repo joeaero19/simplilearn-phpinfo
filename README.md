@@ -7,7 +7,7 @@ export GITHUB_BRANCH=2021-08
 export GITHUB_PROJECT=simplilearn-phpinfo
 export GITHUB_RELEASE=single-line
 export GITHUB_SRC=src
-export GITHUB_USERNAME=academiaonline
+export GITHUB_USERNAME=joeaero19
 export NODEPORT=80
 export WORKDIR=/src
 
